@@ -12,6 +12,11 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import PriceView from "@/components/price-view";
+import AddToCardButton from "@/components/add-to-cart-button";
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
 
 type imageType = {
 	asset?: {
@@ -36,6 +41,7 @@ export default function SingleProductPage() {
 	const [product, setProduct] = useState<Product | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState<imageType | null>(null);
+	const [itemCount, setItemCount] = useState(1);
 
 	useEffect(() => {
 		const fetchSingleProduct = async () => {
@@ -56,21 +62,35 @@ export default function SingleProductPage() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	if (!product) return null;
+
 	return (
 		<Container>
 			{loading && <p>Loading...</p>}
-			<section className=' p-2 grid grid-cols-1 lg:grid-cols-2 gap-10'>
+			<section className=' py-14 grid grid-cols-1 lg:grid-cols-2 gap-10'>
 				{/* Left */}
-				<div className=' p-10 space-y-6'>
-					{active && (
-						<Image
-							src={urlFor(active).url()}
-							width={500}
-							height={500}
-							className=' w-full aspect-square object-contain'
-							alt={product?.name ?? "Product Image"}
-						/>
-					)}
+				<div className=' space-y-6'>
+					<div className=' bg-foreground/10'>
+						<AnimatePresence mode='wait'>
+							<motion.div
+								key={active?._key}
+								initial={{ opacity: 0, scale: 0.5 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.5 }}
+								transition={{ duration: 0.2 }}
+							>
+								{active && (
+									<Image
+										src={urlFor(active).url()}
+										width={500}
+										height={500}
+										className=' w-full aspect-square object-contain'
+										alt={product?.name ?? "Product Image"}
+									/>
+								)}
+							</motion.div>
+						</AnimatePresence>
+					</div>
 					<div className=' flex items-center gap-2'>
 						{product?.images?.map((image, index) => (
 							<Image
@@ -81,12 +101,35 @@ export default function SingleProductPage() {
 								className={cn(
 									"w-20 cursor-pointer object-cover object-top hover:scale-95 duration-100 bg-foreground/20 aspect-square",
 									image._key === active?._key &&
-										" border rounded-sm shadow-lg border-orange-600 hover:scale-100",
+										" border-2 shadow-lg border-gray-300 hover:scale-100",
 								)}
 								alt={product?.name ?? "Product Image"}
 								onClick={() => setActive(image)}
 							/>
 						))}
+					</div>
+				</div>
+
+				{/* Right */}
+				<div className=' p-2 space-y-2'>
+					<h2 className=' font-semibold text-2xl'>{product?.name}</h2>
+					<PriceView price={product?.price} discount={product?.discount} />
+					{product?.stock && product?.stock > 0 ? (
+						<div className=' border-green-500 text-green-500 bg-green-500/20 rounded-sm w-fit  px-3 py-1 font-semibold text-xs'>
+							In Stock
+						</div>
+					) : (
+						<div className=' border-red-500 text-red-500 bg-red-500/20 rounded-sm w-fit  px-3 py-1 font-semibold text-xs'>
+							Out of Stock
+						</div>
+					)}
+					<p>{product?.description}</p>
+					<div className=' py-3 flex items-center gap-4'>
+						<AddToCardButton setItemCount={setItemCount} product={product} />
+						<Button variant={"outline"} size={"icon"}>
+							{" "}
+							<Heart />{" "}
+						</Button>
 					</div>
 				</div>
 			</section>
