@@ -39,7 +39,9 @@ export default function ProductGrid() {
 		<Container className=''>
 			<VariantTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 			{isLoading && <ProductLoading />}
-			{!isLoading && products.length === 0 && <p>No products found.</p>}
+			{!isLoading && products.length === 0 && (
+				<p className=' py-8'>No products found.</p>
+			)}
 			<div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-8'>
 				{!isLoading &&
 					products.length > 0 &&

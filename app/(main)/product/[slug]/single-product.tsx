@@ -17,6 +17,8 @@ import PriceView from "@/components/price-view";
 import AddToCardButton from "@/components/add-to-cart-button";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
+import SingleProductRightBottom from "@/components/single-product-right-bottom";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type imageType = {
 	asset?: {
@@ -42,7 +44,7 @@ export default function SingleProductPage() {
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState<imageType | null>(null);
 	const [itemCount, setItemCount] = useState(1);
-
+	console.log(itemCount);
 	useEffect(() => {
 		const fetchSingleProduct = async () => {
 			try {
@@ -62,15 +64,13 @@ export default function SingleProductPage() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!product) return null;
-
 	return (
 		<Container>
-			{loading && <p>Loading...</p>}
+			{loading && <SingleProductLoading />}
 			<section className=' py-14 grid grid-cols-1 lg:grid-cols-2 gap-10'>
 				{/* Left */}
 				<div className=' space-y-6'>
-					<div className=' bg-foreground/10'>
+					<div className=' bg-foreground/10 w-4/5 mx-auto'>
 						<AnimatePresence mode='wait'>
 							<motion.div
 								key={active?._key}
@@ -91,7 +91,7 @@ export default function SingleProductPage() {
 							</motion.div>
 						</AnimatePresence>
 					</div>
-					<div className=' flex items-center gap-2'>
+					<div className=' flex items-center gap-2 justify-center'>
 						{product?.images?.map((image, index) => (
 							<Image
 								key={index}
@@ -99,9 +99,9 @@ export default function SingleProductPage() {
 								width={100}
 								height={100}
 								className={cn(
-									"w-20 cursor-pointer object-cover object-top hover:scale-95 duration-100 bg-foreground/20 aspect-square",
+									"w-20 cursor-pointer object-cover object-top hover:scale-95 duration-100 bg-foreground/10 aspect-square",
 									image._key === active?._key &&
-										" border-2 shadow-lg border-gray-300 hover:scale-100",
+										"  bg-green-600/40 scale-105 shadow-lg border-gray-300 hover:scale-100",
 								)}
 								alt={product?.name ?? "Product Image"}
 								onClick={() => setActive(image)}
@@ -125,14 +125,48 @@ export default function SingleProductPage() {
 					)}
 					<p>{product?.description}</p>
 					<div className=' py-3 flex items-center gap-4'>
-						<AddToCardButton setItemCount={setItemCount} product={product} />
+						{product && (
+							<AddToCardButton setItemCount={setItemCount} product={product} />
+						)}
 						<Button variant={"outline"} size={"icon"}>
 							{" "}
 							<Heart />{" "}
 						</Button>
 					</div>
+					<SingleProductRightBottom />
 				</div>
 			</section>
 		</Container>
 	);
 }
+
+const SingleProductLoading = () => {
+	return (
+		<section className='py-14 grid grid-cols-1 lg:grid-cols-2 gap-10'>
+			<div className=' space-y-6'>
+				<Skeleton className=' w-4/5 mx-auto aspect-square' />
+				<div className=' flex items-center gap-2 justify-center'>
+					<Skeleton className=' h-20 aspect-square' />
+					<Skeleton className=' h-20 aspect-square' />
+					<Skeleton className=' h-20 aspect-square' />
+				</div>
+			</div>
+			<div className=' p-2 space-y-3'>
+				<Skeleton className=' h-10 w-full' />
+				<div className='flex items-center gap-2'>
+					<Skeleton className=' h-8 w-[100px]' />
+					<Skeleton className=' h-8 w-[100px]' />
+				</div>
+				<Skeleton className=' h-8 w-[100px]' />
+				<Skeleton className=' h-32 w-full' />
+				<div className=' grid grid-cols-2 gap-2 py-3'>
+					<Skeleton className=' h-16 w-full' />
+					<Skeleton className=' h-16 w-full' />
+					<Skeleton className=' h-16 w-full' />
+					<Skeleton className=' h-16 w-full' />
+				</div>
+				<Skeleton className=' h-16 w-full' />
+			</div>
+		</section>
+	);
+};
