@@ -40,7 +40,7 @@ export default function ProductGrid() {
 			<VariantTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 			{isLoading && <ProductLoading />}
 			{!isLoading && products.length === 0 && <p>No products found.</p>}
-			<div className=' grid grid-cols-1 lg:grid-cols-4 gap-6 py-8'>
+			<div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-8'>
 				{!isLoading &&
 					products.length > 0 &&
 					products.map(product => (
@@ -62,7 +62,7 @@ export default function ProductGrid() {
 
 const ProductLoading = () => {
 	return (
-		<div className=' grid grid-cols-1 lg:grid-cols-4 gap-6 py-8'>
+		<div className=' grid grid-cols-2 md:grid-cols-3  lg:grid-cols-4 gap-6 py-8'>
 			{[1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
 				<AnimatePresence key={index}>
 					<motion.div

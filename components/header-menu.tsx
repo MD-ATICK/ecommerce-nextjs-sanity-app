@@ -13,8 +13,8 @@ export default function HeaderMenu() {
 				<Link
 					key={title}
 					href={href}
-					className={`  hover:text-black ${
-						pathName === href ? "text-black" : "text-muted-foreground"
+					className={`  hover:text-foreground ${
+						pathName === href ? "text-foreground" : "text-muted-foreground"
 					}`}
 				>
 					{title}
