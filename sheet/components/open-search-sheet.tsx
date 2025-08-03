@@ -9,11 +9,11 @@ import { useOpenSearch } from "../hooks/use-open-search";
 import { Input } from "@/components/ui/input";
 import { Product } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
-import { Link } from "lucide-react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import PriceView from "@/components/price-view";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 export default function OpenSearchSheet() {
 	const { open, setOpen } = useOpenSearch();
@@ -64,7 +64,7 @@ export default function OpenSearchSheet() {
 						onChange={e => setSearch(e.target.value)}
 					/>
 					{isLoading && (
-						<div className=' p-3'>
+						<div className=' p-3 space-y-2'>
 							<Skeleton className=' h-20 w-full' />
 							<Skeleton className=' h-20 w-full' />
 							<Skeleton className=' h-20 w-full' />
@@ -72,19 +72,22 @@ export default function OpenSearchSheet() {
 						</div>
 					)}
 					{products && products.length > 0 && (
-						<div className=' p-3'>
+						<div className=' p-3 space-y-2'>
 							{products.map(product => (
-								<div key={product._id} className='flex h-20 items-center gap-2'>
+								<Link
+									href={`/product/${product.slug?.current}`}
+									key={product._id}
+									onClick={() => setOpen(false)}
+									className='flex h-20 items-center gap-2'
+								>
 									{product.images && (
-										<Link href={`/product/${product.slug?.current}`}>
-											<Image
-												src={urlFor(product?.images[0]).url()}
-												width={50}
-												height={50}
-												alt={product?.name || "Product"}
-												className=' h-full  aspect-square object-contain'
-											/>
-										</Link>
+										<Image
+											src={urlFor(product?.images[0]).url()}
+											width={50}
+											height={50}
+											alt={product?.name || "Product"}
+											className=' h-full  aspect-square object-contain'
+										/>
 									)}
 									<div className=' space-y-1'>
 										<p className='text-sm font-medium mask-linear-to-chart-1'>
@@ -110,7 +113,7 @@ export default function OpenSearchSheet() {
 											)}
 										</div>
 									</div>
-								</div>
+								</Link>
 							))}
 						</div>
 					)}
