@@ -6,9 +6,11 @@ import React from "react";
 import PriceView from "./price-view";
 import AddToCardButton from "./add-to-cart-button";
 import Quantity from "./quantity";
+import { useCartStore } from "@/zustand/use-cart-store";
 
 export default function ProductCard({ product }: { product: Product }) {
-	const [itemCount, setItemCount] = React.useState<number>(0);
+	const { getItemCount } = useCartStore();
+	const itemCount = getItemCount(product._id);
 
 	const outOfStock = product.stock === 0;
 
@@ -44,13 +46,9 @@ export default function ProductCard({ product }: { product: Product }) {
 				<PriceView price={product.price} discount={product.discount} />
 			</div>
 			{itemCount > 0 ? (
-				<Quantity
-					product={product}
-					itemCount={itemCount}
-					setItemCount={setItemCount}
-				/>
+				<Quantity product={product} itemCount={itemCount} />
 			) : (
-				<AddToCardButton product={product} setItemCount={setItemCount} />
+				<AddToCardButton product={product} />
 			)}
 		</div>
 	);
