@@ -125,9 +125,7 @@ export default function SingleProductPage() {
 					)}
 					<p>{product?.description}</p>
 					<div className=' py-3 flex items-center gap-4'>
-						{product && (
-							<AddToCardButton setItemCount={setItemCount} product={product} />
-						)}
+						{product && <AddToCardButton product={product} />}
 						<Button variant={"outline"} size={"icon"}>
 							{" "}
 							<Heart />{" "}
