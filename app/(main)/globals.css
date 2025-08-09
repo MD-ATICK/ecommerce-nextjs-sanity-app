@@ -41,6 +41,11 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 }
 
+th,
+td {
+	@apply px-6 py-2 whitespace-nowrap text-xs md:text-sm;
+}
+
 /* :root {
 	--radius: 0.65rem;
 	--background: oklch(1 0 0);

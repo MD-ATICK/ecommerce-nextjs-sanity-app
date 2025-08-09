@@ -2,7 +2,7 @@ import { Product } from "@/sanity.types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type CardItem = {
+export type CardItem = {
 	product: Product;
 	quantity: number;
 };
@@ -74,7 +74,7 @@ export const useCartStore = create<CartState>()(
 			},
 			getSubtotalPrice: () => {
 				return get().items.reduce((acc, crr) => {
-					const price = crr.product.price || 0;
+					const price = (crr.product.price || 0) * crr.quantity;
 					const discountPrice = (price * (crr.product.discount ?? 0)) / 100;
 					const actualPrice = price + discountPrice;
 					return acc + actualPrice;

@@ -43,8 +43,6 @@ export default function SingleProductPage() {
 	const [product, setProduct] = useState<Product | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [active, setActive] = useState<imageType | null>(null);
-	const [itemCount, setItemCount] = useState(1);
-	console.log(itemCount);
 	useEffect(() => {
 		const fetchSingleProduct = async () => {
 			try {

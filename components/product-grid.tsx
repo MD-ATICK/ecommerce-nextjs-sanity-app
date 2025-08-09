@@ -19,7 +19,6 @@ export default function ProductGrid() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				console.log("start");
 				setIsLoading(true);
 				const res = await client.fetch(query, params);
 				const data = await res;

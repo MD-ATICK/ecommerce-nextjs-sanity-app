@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface Props {
 	price: number | undefined;
-	discount: number | undefined;
+	discount?: number | undefined;
 	className?: string;
 }
 
@@ -12,7 +12,7 @@ export default function PriceView({ price, discount, className }: Props) {
 	return (
 		<div>
 			<div className={cn(" space-x-2", className)}>
-				<PriceFormatter amount={price} />
+				<PriceFormatter amount={price} className={className} />
 				{price && discount && (
 					<PriceFormatter
 						className=' text-muted-foreground line-through'

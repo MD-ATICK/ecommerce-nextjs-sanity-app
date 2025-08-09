@@ -13,6 +13,42 @@
  */
 
 // Source: schema.json
+export type Order = {
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  invoice?: {
+    id?: string;
+    number?: number;
+    hosted_invoice_url?: string;
+  };
+  stripeCheckoutSessionId?: string;
+  stripePaymentIntentId?: string;
+  stripeCustomerId?: string;
+  stripeCustomerName?: string;
+  stripeCustomerEmail?: string;
+  clerkUserId?: string;
+  products?: Array<{
+    quantity?: number;
+    product?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "product";
+    };
+    _type: "Member";
+    _key: string;
+  }>;
+  totalPrice?: number;
+  discountedPrice?: number;
+  currency?: string;
+  orderDate?: string;
+  orderStatus?: "pending" | "processing" | "completed" | "cancelled";
+};
+
 export type Product = {
   _id: string;
   _type: "product";
@@ -191,52 +227,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Product | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Order | Product | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./sanity/helpers/queries.ts
-// Variable: query
-// Query: *[_type ==  "product" && slug.current == $slug ] | order(name asc) [0]
-export type QueryResult = {
-  _id: string;
-  _type: "product";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  name?: string;
-  slug?: Slug;
-  images?: Array<{
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }>;
-  intro?: string;
-  description?: string;
-  price?: number;
-  discount?: number;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
-  }>;
-  stock?: number;
-  status?: "hot" | "new" | "sale";
-  variant?: "hoodie" | "jacket" | "pants";
-} | null;
-
-// Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
-  interface SanityQueries {
-    "*[_type ==  \"product\" && slug.current == $slug ] | order(name asc) [0]": QueryResult;
-  }
-}

@@ -31,9 +31,9 @@ export default function MobileSidebarSheet() {
 							key={title}
 							href={href}
 							onClick={() => setOpen(false)}
-							className={` hover:text-black  ${
+							className={` hover:text-foreground  ${
 								pathName === href
-									? "text-black font-medium"
+									? "text-foreground font-medium"
 									: "text-muted-foreground"
 							}`}
 						>
