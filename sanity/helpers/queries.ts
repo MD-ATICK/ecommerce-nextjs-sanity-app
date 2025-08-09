@@ -23,8 +23,11 @@ export const getProductBySlug = async (slug: string) => {
 
 export const getOrders = async (userId: string) => {
 	try {
+		if (!userId) {
+			throw new Error("User ID is required to fetch orders.");
+		}
 		const query =
-			defineQuery(`*[_type == 'order'  && ClerkUserId == $userId] | order(orderDate desc){
+			defineQuery(`*[_type == 'order'  && clerkUserId == $userId] | order(orderDate desc){
 			...,products[]{
 			...,product->
 			}

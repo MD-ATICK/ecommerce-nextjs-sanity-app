@@ -9,7 +9,7 @@ import { MoveRight } from "lucide-react";
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 export default function Header() {
-	const user = useUser();
+	const { user } = useUser();
 
 	return (
 		<header className='border-b'>

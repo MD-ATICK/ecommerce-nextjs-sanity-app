@@ -24,11 +24,6 @@ export const orderType = defineType({
 					title: "Invoice ID",
 				},
 				{
-					name: "number",
-					type: "number",
-					title: "Invoice Number",
-				},
-				{
 					name: "hosted_invoice_url",
 					title: "Hosted Invoice URL",
 					type: "url",

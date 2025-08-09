@@ -94,7 +94,6 @@ async function createOrderToSanity(
 			orderNumber: orderNumber,
 			invoice: {
 				id: invoice?.id,
-				number: invoice?.number ?? 0,
 				hosted_invoice_url: invoice?.hosted_invoice_url,
 			},
 			stripeCheckoutSessionId: session.id,

@@ -22,7 +22,6 @@ export type Order = {
   orderNumber?: string;
   invoice?: {
     id?: string;
-    number?: number;
     hosted_invoice_url?: string;
   };
   stripeCheckoutSessionId?: string;

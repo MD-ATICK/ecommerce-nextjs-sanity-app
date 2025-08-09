@@ -12,7 +12,7 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import PriceView from "@/components/price-view";
 import AddToCardButton from "@/components/add-to-cart-button";
 import { Button } from "@/components/ui/button";
@@ -69,25 +69,25 @@ export default function SingleProductPage() {
 				{/* Left */}
 				<div className=' space-y-6'>
 					<div className=' bg-foreground/10 w-4/5 mx-auto'>
-						<AnimatePresence mode='wait'>
-							<motion.div
-								key={active?._key}
-								initial={{ opacity: 0, scale: 0.5 }}
-								animate={{ opacity: 1, scale: 1 }}
-								exit={{ opacity: 0, scale: 0.5 }}
-								transition={{ duration: 0.2 }}
-							>
-								{active && (
-									<Image
-										src={urlFor(active).url()}
-										width={500}
-										height={500}
-										className=' w-full aspect-square object-contain'
-										alt={product?.name ?? "Product Image"}
-									/>
-								)}
-							</motion.div>
-						</AnimatePresence>
+						{/* <AnimatePresence mode='wait'> */}
+						<motion.div
+							key={active?._key}
+							initial={{ opacity: 0, scale: 0.5 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.5 }}
+							transition={{ duration: 0.2 }}
+						>
+							{active && (
+								<Image
+									src={urlFor(active).url()}
+									width={500}
+									height={500}
+									className=' w-full aspect-square object-contain'
+									alt={product?.name ?? "Product Image"}
+								/>
+							)}
+						</motion.div>
+						{/* </AnimatePresence> */}
 					</div>
 					<div className=' flex items-center gap-2 justify-center'>
 						{product?.images?.map((image, index) => (

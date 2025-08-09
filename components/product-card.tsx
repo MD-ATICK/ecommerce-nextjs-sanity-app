@@ -17,7 +17,7 @@ export default function ProductCard({ product }: { product: Product }) {
 	return (
 		<div className=' space-y-2  relative'>
 			{product.images && (
-				<div className='rounded-sm overflow-hidden w-full bg-white/10 aspect-square'>
+				<div className='rounded-sm overflow-hidden w-full bg-primary/10 aspect-square'>
 					<Link href={`/product/${product.slug?.current}`}>
 						<Image
 							src={urlFor(product.images[0]).url()}

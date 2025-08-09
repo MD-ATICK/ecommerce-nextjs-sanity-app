@@ -53,13 +53,6 @@
               },
               "optional": true
             },
-            "number": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "number"
-              },
-              "optional": true
-            },
             "hosted_invoice_url": {
               "type": "objectAttribute",
               "value": {

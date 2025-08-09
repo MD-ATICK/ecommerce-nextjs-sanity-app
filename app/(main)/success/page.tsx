@@ -1,48 +1,28 @@
-"use client";
+import { getSession } from "@/actions/session-retrieve";
+import { notFound } from "next/navigation";
+import SuccessPage from "./success-page";
 
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+export default async function page({
+	searchParams,
+}: {
+	searchParams: Promise<{ session_id: string; order_number: string }>;
+}) {
+	console.log("Search Params:", searchParams);
+	const sessionId = (await searchParams).session_id;
 
-export default function SuccessPage() {
-	// const router = useRouter();
-	// const searchParams = useSearchParams();
-	// const orderNumber = searchParams.get("order_number");
-	// const sessionId = searchParams.get("session_id");
-	// const { resetCart } = useCartStore();
+	if (!sessionId) {
+		notFound();
+	}
 
-	// if (!orderNumber || !sessionId) {
-	// 	router.push("/cart");
-	// 	return;
-	// }
+	const session = await getSession(sessionId); // Server Action called on the server
 
-	// const isValidSession = getSession(sessionId);
-	// if (!isValidSession) {
-	// 	router.push("/cart");
-	// 	return;
-	// }
+	if (!session) {
+		notFound();
+	}
 
-	// resetCart();
+	// Assuming the order number is stored in session metadata
+	const orderNumber = (await searchParams).order_number;
 
-	return (
-		<div className=' text-center p-4 py-20 space-y-2'>
-			<p className=' text-7xl'>🎉</p>
-			<br />
-			<h3 className=' text-lg font-semibold'>Thank you for your purchase!</h3>
-			<p className=' text-sm text-muted-foreground'>
-				Your order number is: {"orderNumber"}
-			</p>
-			<br />
-			<Link href={"/"} className=' mr-4'>
-				<Button size={"sm"}>Go to Home</Button>
-			</Link>
-			<Link href={"/orders"}>
-				<Button
-					size={"sm"}
-					className=' bg-green-700 hover:bg-green-600 text-white'
-				>
-					Go to Orders Page
-				</Button>
-			</Link>
-		</div>
-	);
+	// Pass the server-validated data to a client component
+	return <SuccessPage orderNumber={orderNumber} />;
 }
